@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_test_app/src/features/auth/presentation/login.page.dart';
 import 'package:supabase_test_app/src/settings/settings_controller.dart';
@@ -25,7 +26,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
+                  CupertinoPageRoute(
                       builder: (context) => LoginPage(
                             settingsController: widget.settingsController,
                           )));

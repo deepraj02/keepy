@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:supabase_test_app/src/features/auth/presentation/login.page.dart';
+import 'package:supabase_test_app/src/features/auth/presentation/signup.page.dart';
 import 'package:supabase_test_app/src/features/home/presentation/home.page.dart';
 
 import 'settings/settings_controller.dart';
@@ -68,6 +69,10 @@ class MyApp extends StatelessWidget {
                 switch (routeSettings.name) {
                   case HomePage.routeName:
                     return HomePage(
+                      settingsController: settingsController,
+                    );
+                  case SignUpPage.routeName:
+                    return SignUpPage(
                       settingsController: settingsController,
                     );
 

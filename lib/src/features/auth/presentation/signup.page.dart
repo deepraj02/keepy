@@ -1,47 +1,24 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_test_app/src/features/auth/presentation/signup.page.dart';
-import 'package:supabase_test_app/src/settings/settings_controller.dart';
-import 'package:supabase_test_app/src/shared/styles.dart';
 
-import '../../home/presentation/home.page.dart';
+import '../../../settings/settings_controller.dart';
+import 'login.page.dart';
 
-class LoginPage extends StatefulWidget {
-  static const routeName = '/login';
-  const LoginPage({
-    super.key,
-    required this.settingsController,
-  });
+class SignUpPage extends StatefulWidget {
+  static const routeName = '/signup';
   final SettingsController settingsController;
+  const SignUpPage({super.key, required this.settingsController});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  TextEditingController usernameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: const [
-        // IconButton(
-        //   onPressed: () {
-        //     setState(() {
-        //       widget.settingsController.updateThemeMode(
-        //           widget.settingsController.themeMode == ThemeMode.light
-        //               ? ThemeMode.dark
-        //               : ThemeMode.light);
-        //     });
-        //   },
-        //   icon: Icon(
-        //     widget.settingsController.themeMode == ThemeMode.light
-        //         ? Icons.dark_mode_rounded
-        //         : Icons.light_mode_rounded,
-        //   ),
-        // ),
-      ]),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -50,10 +27,10 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Login",
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
+                const Text(
+                  "SignUp",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Container(
@@ -63,7 +40,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: TextFormField(
                       controller: emailController,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: InputDecoration(
                         hintText: 'Enter your email',
                         prefixIcon: const Icon(Icons.email),
@@ -89,7 +65,10 @@ class _LoginPageState extends State<LoginPage> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.blue.shade50),
+                      border: Border.all(
+                        color: Colors.blue.shade50,
+                        width: 1,
+                      ),
                     ),
                     child: TextFormField(
                       controller: passwordController,
@@ -115,17 +94,41 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                        color: Colors.blue.shade50,
+                      ),
+                    ),
+                    child: TextFormField(
+                      controller: usernameController,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                        hintText: 'Enter your username',
+                        prefixIcon: const Icon(Icons.person),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            color: Colors.white70,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(color: Colors.white70),
+                        ),
+                        hintStyle: TextStyle(
+                            fontSize: 12.0, color: Colors.blueGrey.shade300),
+                        contentPadding: const EdgeInsets.all(12),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
                   padding: const EdgeInsets.only(top: 15.0),
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => HomePage(
-                                    settingsController:
-                                        widget.settingsController,
-                                  )));
-                    },
+                    onTap: () {},
                     child: Container(
                       alignment: Alignment.center,
                       height: 45,
@@ -135,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: const Text(
-                        "Sign In",
+                        "Sign Up",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -149,40 +152,41 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SignUpPage(
+                              builder: (context) => LoginPage(
                                     settingsController:
                                         widget.settingsController,
                                   )));
                     },
                     child: RichText(
-                      text: TextSpan(children: <InlineSpan>[
-                        TextSpan(
-                          text: "Already have an account?",
-                          style: TextStyle(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Already have an account?",
+                            style: TextStyle(
                               color: Colors.blueGrey.shade300,
                               fontSize: 12,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        TextSpan(
-                          text: ' ',
-                          style: TextStyle(
-                              color: Colors.indigo.shade300,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        TextSpan(
-                          text: "SignUp",
-                          style: TextStyle(
-                            color: CrudSupabaseColors.purpleAccent,
-                            fontSize: CrudSupabaseTextStyles.minFontSize,
-                            fontFamily: CrudSupabaseTextStyles.fontFamily,
-                            fontWeight: CrudSupabaseTextStyles.fontWeight,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
-                        )
-                      ]),
+                          TextSpan(
+                            text: ' ',
+                            style: TextStyle(
+                                color: Colors.indigo.shade300,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          const TextSpan(
+                            text: "SignIn",
+                            style: TextStyle(
+                                color: Colors.purpleAccent,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700),
+                          )
+                        ],
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ),
