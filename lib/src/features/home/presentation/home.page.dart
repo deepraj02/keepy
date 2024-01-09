@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_test_app/src/features/auth/presentation/login.page.dart';
+import 'package:supabase_test_app/src/features/auth/services/auth.service.dart';
 import 'package:supabase_test_app/src/settings/settings_controller.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  AuthServiceImpl authService = AuthServiceImpl();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +50,18 @@ class _HomePageState extends State<HomePage> {
                     : Icons.light_mode_rounded,
               ),
             ),
+            IconButton(
+                onPressed: () {
+                  authService.signOut();
+                  if (!mounted) return;
+                  Navigator.pushReplacement(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => LoginPage(
+                                settingsController: widget.settingsController,
+                              )));
+                },
+                icon: const Icon(Icons.logout_outlined))
           ]),
     );
   }

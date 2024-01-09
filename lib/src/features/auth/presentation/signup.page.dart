@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_test_app/src/features/auth/services/auth.service.dart';
+import 'package:supabase_test_app/src/shared/constants.dart';
 
 import '../../../settings/settings_controller.dart';
+import '../../home/presentation/home.page.dart';
 import 'login.page.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -15,7 +18,8 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController usernameController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+  AuthServiceImpl authService = AuthServiceImpl();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,7 +107,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     child: TextFormField(
-                      controller: usernameController,
+                      controller: userNameController,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: InputDecoration(
                         hintText: 'Enter your username',
@@ -128,7 +132,43 @@ class _SignUpPageState extends State<SignUpPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 15.0),
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () async {
+                      try {
+                        await authService.signUp(
+                            emailController.text.trim(),
+                            passwordController.text.trim(),
+                            userNameController.text.trim());
+
+                        // Check if login was successful
+                        if (ProjectConstants.supaInstance.auth.currentUser !=
+                            null) {
+                          // If login is successful, navigate to the home page
+                          if (!mounted) return;
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(
+                                settingsController: widget.settingsController,
+                              ),
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Login successful')),
+                          );
+                        }
+                        {
+                          // Handle the case where login was not successful
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Login Unsuccessful')),
+                          );
+                        }
+                      } catch (error) {
+                        // Handle any error that occurs during login
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(error.toString())),
+                        );
+                      }
+                    },
                     child: Container(
                       alignment: Alignment.center,
                       height: 45,

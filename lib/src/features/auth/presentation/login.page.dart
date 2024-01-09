@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_test_app/src/features/auth/presentation/signup.page.dart';
+import 'package:supabase_test_app/src/features/auth/services/auth.service.dart';
 import 'package:supabase_test_app/src/settings/settings_controller.dart';
+import 'package:supabase_test_app/src/shared/constants.dart';
 import 'package:supabase_test_app/src/shared/styles.dart';
 
 import '../../home/presentation/home.page.dart';
@@ -21,6 +22,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  AuthServiceImpl authService = AuthServiceImpl();
 
   @override
   Widget build(BuildContext context) {
@@ -117,14 +119,42 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 15.0),
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                          context,
-                          CupertinoPageRoute(
+                    onTap: () async {
+                      try {
+                        await authService.logIn(
+                          emailController.text.trim(),
+                          passwordController.text.trim(),
+                        );
+
+                        // Check if login was successful
+                        if (ProjectConstants.supaInstance.auth.currentUser !=
+                            null) {
+                          // If login is successful, navigate to the home page
+                          if (!mounted) return;
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
                               builder: (context) => HomePage(
-                                    settingsController:
-                                        widget.settingsController,
-                                  )));
+                                settingsController: widget.settingsController,
+                              ),
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Login successful')),
+                          );
+                        }
+                        {
+                          // Handle the case where login was not successful
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Login Unsuccessful')),
+                          );
+                        }
+                      } catch (error) {
+                        // Handle any error that occurs during login
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(error.toString())),
+                        );
+                      }
                     },
                     child: Container(
                       alignment: Alignment.center,
