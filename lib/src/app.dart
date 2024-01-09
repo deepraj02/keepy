@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:supabase_test_app/src/features/auth/presentation/login.page.dart';
 import 'package:supabase_test_app/src/features/auth/presentation/signup.page.dart';
 import 'package:supabase_test_app/src/features/home/presentation/home.page.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final session = Supabase.instance.client.auth.currentSession;
     // Glue the SettingsController to the MaterialApp.
     //
     // The ListenableBuilder Widget listens to the SettingsController for changes.
@@ -75,14 +77,14 @@ class MyApp extends StatelessWidget {
                     return SignUpPage(
                       settingsController: settingsController,
                     );
-
                   default:
-                    return LoginPage(
-                      settingsController: settingsController,
-                    );
-                  // return HomePage(
-                  //   settingsController: settingsController,
-                  // );
+                    return session != null
+                        ? HomePage(
+                            settingsController: settingsController,
+                          )
+                        : LoginPage(
+                            settingsController: settingsController,
+                          );
                 }
               },
             );
