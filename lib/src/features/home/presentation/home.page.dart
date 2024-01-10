@@ -27,7 +27,11 @@ class _HomePageState extends State<HomePage> {
 
   late final SupabaseStreamFilterBuilder noteStreamSubscription;
 
-
+  @override
+  void dispose() {
+    noteController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {

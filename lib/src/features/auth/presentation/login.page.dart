@@ -23,27 +23,19 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   AuthServiceImpl authService = AuthServiceImpl();
+  bool isVisible = false;
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: const [
-        // IconButton(
-        //   onPressed: () {
-        //     setState(() {
-        //       widget.settingsController.updateThemeMode(
-        //           widget.settingsController.themeMode == ThemeMode.light
-        //               ? ThemeMode.dark
-        //               : ThemeMode.light);
-        //     });
-        //   },
-        //   icon: Icon(
-        //     widget.settingsController.themeMode == ThemeMode.light
-        //         ? Icons.dark_mode_rounded
-        //         : Icons.light_mode_rounded,
-        //   ),
-        // ),
-      ]),
+      appBar: AppBar(actions: const []),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -95,10 +87,20 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: TextFormField(
                       controller: passwordController,
-                      obscureText: true,
+                      obscureText: isVisible ? false : true,
                       decoration: InputDecoration(
                         hintText: 'Enter your password',
                         prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isVisible = !isVisible;
+                            });
+                          },
+                          icon: isVisible
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off),
+                        ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: const BorderSide(
