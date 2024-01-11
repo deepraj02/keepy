@@ -83,10 +83,77 @@ class _HomePageState extends State<HomePage> {
             }
             final notes = snapshot.data!;
             return ListView.builder(
+              shrinkWrap: true,
               itemBuilder: (context, index) {
                 final note = notes[index];
-                return ListTile(
-                  title: Text(note['body']),
+                return GestureDetector(
+                  /// Delete Function
+                  onLongPress: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Delete Note"),
+                          actions: [
+                            TextButton(
+                              child: const Text("Delete"),
+                              onPressed: () async {
+                                await notesService
+                                    .deleteNote(note['id'].toString());
+
+                                setState(() {});
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+
+                  /// update function
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Update Note"),
+                          content: TextFormField(
+                            controller: noteController,
+                            decoration: const InputDecoration(
+                              labelText: "Updated Note Body",
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              child: const Text("Cancel"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                setState(() {
+                                  noteController.clear();
+                                });
+                              },
+                            ),
+                            TextButton(
+                              child: const Text("Update"),
+                              onPressed: () async {
+                                await notesService.updateNote(
+                                    noteController.text, note['id'].toString());
+
+                                setState(() {
+                                  noteController.clear();
+                                });
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: ListTile(
+                    title: Text(note['body']),
+                  ),
                 );
               },
               itemCount: notes.length,
