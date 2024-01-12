@@ -165,7 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             const SnackBar(content: Text('Login successful')),
                           );
                         }
-                        {
+                        if (mounted) {
                           // Handle the case where login was not successful
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Login Unsuccessful')),
@@ -173,9 +173,11 @@ class _SignUpPageState extends State<SignUpPage> {
                         }
                       } catch (error) {
                         // Handle any error that occurs during login
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(error.toString())),
-                        );
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(error.toString())),
+                          );
+                        }
                       }
                     },
                     child: Container(

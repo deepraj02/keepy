@@ -102,7 +102,9 @@ class _NotesPageState extends State<NotesPage> {
                                     .deleteNote(note['id'].toString());
 
                                 setState(() {});
-                                Navigator.pop(context);
+                                if (mounted) {
+                                  Navigator.pop(context);
+                                }
                               },
                             ),
                           ],
@@ -143,7 +145,9 @@ class _NotesPageState extends State<NotesPage> {
                                 setState(() {
                                   noteController.clear();
                                 });
-                                Navigator.pop(context);
+                                if (mounted) {
+                                  Navigator.pop(context);
+                                }
                               },
                             ),
                           ],
