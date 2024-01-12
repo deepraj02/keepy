@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:supabase_test_app/src/features/auth/presentation/login.page.dart';
 import 'package:supabase_test_app/src/features/auth/services/auth.service.dart';
-import 'package:supabase_test_app/src/features/home/services/notes.service.dart';
+import 'package:supabase_test_app/src/features/notes/services/notes.service.dart';
 import 'package:supabase_test_app/src/settings/settings_controller.dart';
 import 'package:supabase_test_app/src/shared/constants.dart';
 
-class HomePage extends StatefulWidget {
-  static const routeName = '/home';
-  const HomePage({
+class NotesPage extends StatefulWidget {
+  static const routeName = '/Notes';
+  const NotesPage({
     Key? key,
     required this.settingsController,
   }) : super(key: key);
@@ -17,10 +17,10 @@ class HomePage extends StatefulWidget {
   final SettingsController settingsController;
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _NotesPageState createState() => _NotesPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _NotesPageState extends State<NotesPage> {
   final NotesServiceImpl notesService = NotesServiceImpl();
   AuthServiceImpl authService = AuthServiceImpl();
   final TextEditingController noteController = TextEditingController();

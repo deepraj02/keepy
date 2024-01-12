@@ -5,7 +5,7 @@ import 'package:supabase_test_app/src/settings/settings_controller.dart';
 import 'package:supabase_test_app/src/shared/constants.dart';
 import 'package:supabase_test_app/src/shared/styles.dart';
 
-import '../../home/presentation/home.page.dart';
+import '../../notes/presentation/notes.page.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/login';
@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HomePage(
+                              builder: (context) => NotesPage(
                                 settingsController: widget.settingsController,
                               ),
                             ),

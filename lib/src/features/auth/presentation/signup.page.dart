@@ -3,7 +3,7 @@ import 'package:supabase_test_app/src/features/auth/services/auth.service.dart';
 import 'package:supabase_test_app/src/shared/constants.dart';
 
 import '../../../settings/settings_controller.dart';
-import '../../home/presentation/home.page.dart';
+import '../../notes/presentation/notes.page.dart';
 import 'login.page.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -156,7 +156,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HomePage(
+                              builder: (context) => NotesPage(
                                 settingsController: widget.settingsController,
                               ),
                             ),

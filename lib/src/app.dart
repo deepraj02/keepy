@@ -4,7 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:supabase_test_app/src/features/auth/presentation/login.page.dart';
 import 'package:supabase_test_app/src/features/auth/presentation/signup.page.dart';
-import 'package:supabase_test_app/src/features/home/presentation/home.page.dart';
+import 'package:supabase_test_app/src/features/notes/presentation/notes.page.dart';
 
 import 'settings/settings_controller.dart';
 
@@ -69,8 +69,8 @@ class MyApp extends StatelessWidget {
               settings: routeSettings,
               builder: (BuildContext context) {
                 switch (routeSettings.name) {
-                  case HomePage.routeName:
-                    return HomePage(
+                  case NotesPage.routeName:
+                    return NotesPage(
                       settingsController: settingsController,
                     );
                   case SignUpPage.routeName:
@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
                     );
                   default:
                     return session != null
-                        ? HomePage(
+                        ? NotesPage(
                             settingsController: settingsController,
                           )
                         : LoginPage(
